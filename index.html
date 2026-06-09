@@ -320,7 +320,7 @@
         <a class="btn" href="https://www.youtube.com/@pibrioverde" target="_blank" rel="noopener">
           <div class="left">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.7 12 4.7 12 4.7s-5.7 0-7.5.4A3 3 0 0 0 2.4 7.2 31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.4 7.5.4 7.5.4s5.7 0 7.5-.4a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/></svg>
-            <div><div class="label">YouTube</div><div class="hint">Assista as pregações e conteúdos</div></div>
+            <div><div class="label">YouTube</div><div class="hint">Mensagens</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
@@ -373,7 +373,23 @@
 
         <a class="btn" href="https://forms.gle/qQ1jTewsr28iWLt48" target="_blank" rel="noopener">
           <div class="left">
-            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.6c-.3 0-.5-.1-.7-.3C10.6 20.6 2 13.5 2 8a10 10 0 0 1 20 0c0 5.5-8.6 12.6-9.3 13.3-.2.2-.4.3-.7.3zM12 2a6 6 0 0 0-6 6c0 3.5 5.1 9 6 9.9.9-.9 6-6.4 6-9.9a6 6 0 0 0-6-6zm0 8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- raios de luz -->
+              <line x1="24" y1="2" x2="24" y2="8"/>
+              <line x1="13" y1="5.5" x2="16" y2="10.5"/>
+              <line x1="35" y1="5.5" x2="32" y2="10.5"/>
+              <line x1="6"  y1="13" x2="11" y2="16"/>
+              <line x1="42" y1="13" x2="37" y2="16"/>
+              <!-- mão esquerda -->
+              <path d="M24 38 C20 35 14 30 13 25 L11 18 C10.5 16.5 11.5 15 13 15 C14 15 14.8 15.7 15 16.5 L16 20 C16 20 16.5 16 17 14.5 C17.5 13 19 12.5 20 13 C21 13.5 21.5 15 21 16.5 L20.5 19 C20.5 19 21.5 15.5 22.5 14.5 C23.5 13.5 25 13.8 25.5 15 C26 16 25.5 18.5 25.5 18.5"/>
+              <!-- mão direita (espelho) -->
+              <path d="M24 38 C28 35 34 30 35 25 L37 18 C37.5 16.5 36.5 15 35 15 C34 15 33.2 15.7 33 16.5 L32 20 C32 20 31.5 16 31 14.5 C30.5 13 29 12.5 28 13 C27 13.5 26.5 15 27 16.5 L27.5 19 C27.5 19 26.5 15.5 25.5 14.5 C24.5 13.5 23 13.8 22.5 15 C22 16 22.5 18.5 22.5 18.5"/>
+              <!-- punhos / mangas -->
+              <path d="M11 28 L8 34 L17 38 L21 32"/>
+              <path d="M37 28 L40 34 L31 38 L27 32"/>
+              <!-- linha central das mãos juntas -->
+              <line x1="24" y1="18" x2="24" y2="38"/>
+            </svg>
             <div><div class="label">Quero pedir oração</div><div class="hint">Envie seu pedido de oração</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
@@ -383,33 +399,6 @@
           <div class="left">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             <div><div class="label">Encontre um Pequeno Grupo</div><div class="hint">Conecte-se com a comunidade</div></div>
-          </div>
-          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
-        </a>
-
-        <!-- Próximos eventos — troque o href pelo link da Fernandita -->
-        <a class="btn" href="#" target="_blank" rel="noopener">
-          <div class="left">
-            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zM7 12h5v5H7z"/></svg>
-            <div><div class="label">Próximos eventos</div><div class="hint">Fique por dentro da agenda</div></div>
-          </div>
-          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
-        </a>
-
-        <!-- Missões — troque o href pelo link -->
-        <a class="btn" href="#" target="_blank" rel="noopener">
-          <div class="left">
-            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            <div><div class="label">Missões PIB Rio Verde</div><div class="hint">Congregações e projetos no Brasil e no mundo</div></div>
-          </div>
-          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
-        </a>
-
-        <!-- Mensagens — troque o href por uma playlist específica se quiser -->
-        <a class="btn" href="https://www.youtube.com/@pibrioverde" target="_blank" rel="noopener">
-          <div class="left">
-            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.7 12 4.7 12 4.7s-5.7 0-7.5.4A3 3 0 0 0 2.4 7.2 31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.4 7.5.4 7.5.4s5.7 0 7.5-.4a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/></svg>
-            <div><div class="label">Mensagens</div><div class="hint">Pregações e estudos bíblicos</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
