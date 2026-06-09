@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pib Rio Verde</title>
+  <link rel="icon" type="image/png" href="assets/PIB.png">
+  <meta name="description" content="Links oficiais da Pibrioverde: YouTube, Spotify, Instagram e WhatsApp!" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#111a2e;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.10);
+      --text:#eef2ff;
+      --muted:rgba(238,242,255,.72);
+      --btn:rgba(255,255,255,.08);
+      --btnHover:rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --max: 560px;
+    }
+
+    @keyframes gradientShift {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background: #0d0050;
+      position: relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 16px;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    body::before {
+      background: linear-gradient(135deg, #05001f, #1a1a6e, #05001f);
+    }
+
+    body::after {
+      background: linear-gradient(135deg, #1a1a6e, #05001f, #1a1a6e);
+      animation: gradientShift 6s ease-in-out infinite;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--max);
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      backdrop-filter: blur(12px);
+    }
+
+    header{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .avatar{
+      width:64px;
+      height:64px;
+      border-radius:50%;
+      border:1px solid var(--stroke);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.18), transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(255,255,255,.10), transparent 45%),
+        rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+
+    /* se você quiser usar foto, descomente e coloque sua imagem no src do <img> */
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    h1{
+      font-size:18px;
+      margin:0 0 4px;
+      letter-spacing:.2px;
+    }
+    .bio{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    a.btn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      text-decoration:none;
+      color:var(--text);
+      padding:14px 14px;
+      border-radius:14px;
+      background:var(--btn);
+      border:1px solid var(--stroke);
+      transition: transform .12s ease, background .12s ease;
+      will-change: transform;
+    }
+    a.btn:hover{
+      background:var(--btnHover);
+      transform: translateY(-1px);
+    }
+    a.btn:active{
+      transform: translateY(0px) scale(.99);
+    }
+
+    .left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .icon{
+      width:22px;
+      height:22px;
+      opacity:.95;
+      flex:0 0 auto;
+    }
+
+    .label{
+      font-weight:600;
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .arrow{
+      width:18px;
+      height:18px;
+      opacity:.7;
+      flex:0 0 auto;
+    }
+
+    footer{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(238,242,255,.55);
+      font-size:12px;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      margin-top:10px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(16,185,129,.9);
+      box-shadow:0 0 0 6px rgba(16,185,129,.15);
+    }
+
+    .events-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px dashed var(--stroke);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .events-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 2px;
+      padding-left: 4px;
+    }
+
+    a.btn.event-btn {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.12));
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      position: relative;
+    }
+    
+    a.btn.event-btn:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.20), rgba(236, 72, 153, 0.20));
+      border-color: rgba(236, 72, 153, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.15);
+    }
+
+    .event-badge {
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+      animation: pulse-event 2s infinite;
+    }
+
+    @keyframes pulse-event {
+      0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.5); }
+      70% { box-shadow: 0 0 0 6px rgba(236, 72, 153, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+    }
+
+    /* modo claro (opcional): adicione class="light" no body */
+    body.light{
+      --bg1:#f6f7fb;
+      --bg2:#e9eef8;
+      --card:rgba(255,255,255,.75);
+      --stroke:rgba(10,20,40,.10);
+      --text:#0b1220;
+      --muted:rgba(11,18,32,.65);
+      --btn:rgba(255,255,255,.85);
+      --btnHover:rgba(255,255,255,.95);
+      --shadow: 0 18px 60px rgba(10,20,40,.12);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card">
+      <header>
+        <div class="avatar">
+           <img src="assets/PIB_.ico" alt="Pib">
+        </div>
+        <div>
+          <h1>PIB Rio Verde</h1>
+          <p class="bio">Cultos aos Domingo: 10h15 & 19h</p>
+          
+        </div>
+      </header>
+
+        <a class="btn" href="https://open.spotify.com/show/0kngYenPkh9jRMSiMgU2Ly?si=Nl5nVVb_RPWY_t0o0qxHeQ" target="_blank" rel="noopener">
+          <div class="left">
+            <!-- Spotify -->
+            <img src="assets/Spotify.ico" class="icon" alt="Spotify"/>
+            <div>
+              <div class="label">ProclameCast</div>
+              <div class="hint">Ouça nosso podcast</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <a class="btn" href="https://www.instagram.com/pibrioverde/" target="_blank" rel="noopener">
+          <div class="left">
+            <!-- Instagram -->
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2zM17.6 6.6a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8z"/>
+            </svg>
+            <div>
+              <div class="label">Instagram</div>
+              <div class="hint">Avisos e novidades</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <a class="btn" href="https://wa.me/556499344612?text=Olá!%20Vim%20pelo%20seu%20link." target="_blank" rel="noopener">
+          <div class="left">
+            <!-- WhatsApp -->
+            <img src="assets/whatsapp.ico" class="icon" alt="maps"/>
+            <div>
+              <div class="label">WhatsApp</div>
+              <div class="hint">Fale conosco</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <a class="btn" href="https://www.google.com/maps/place/Primeira+Igreja+Batista+em+Rio+Verde+-+Av.+Pres.+Vargas,+399+-+Centro,+Rio+Verde+-+GO,+75901-040/data=!4m2!3m1!1s0x9361dc9dca61c391:0x2c5a4e5682c76bb?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI1LjMwLjMYACCenQoqmQEsOTQyNjc3MjcsOTQyODIzMzcsOTQyODQ0OTMsOTQyMjMyOTksOTQyMTY0MTMsOTQyODA1NzYsOTQyMTI0OTYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTc1MjMsOTQyMTg2NTMsOTQyMjk4MzksOTQyNzUxNjgsNDcwODQzOTMsOTQyMTMyMDAsOTQyNTgzMjVCAkJS&skid=0a5a1a91-9001-4a17-97cd-fabfc89879e8" target="_blank" rel="noopener">
+          <div class="left">
+            <img src="assets/maps (1).ico" class="icon" alt="maps"/>
+            <div>
+              <div class="label">Maps</div>
+              <div class="hint">Nossa localização</div>
+            </div>
+          </div>
+            <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+            </svg>
+        </a>
+
+        <!-- NOVO: Sou novo aqui -->
+        <a class="btn" href="sou-novo-aqui.html" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm7 17a1 1 0 0 1-2 0c0-2.76-2.24-5-5-5s-5 2.24-5 5a1 1 0 0 1-2 0c0-3.86 3.14-7 7-7s7 3.14 7 7z"/>
+            </svg>
+            <div>
+              <div class="label">Sou novo aqui</div>
+              <div class="hint">Horários, localização, estacionamento e mais</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Quero pedir oração -->
+        <a class="btn" href="https://forms.gle/qQ1jTewsr28iWLt48" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 21.6c-.3 0-.5-.1-.7-.3C10.6 20.6 2 13.5 2 8a10 10 0 0 1 20 0c0 5.5-8.6 12.6-9.3 13.3-.2.2-.4.3-.7.3zM12 2a6 6 0 0 0-6 6c0 3.5 5.1 9 6 9.9.9-.9 6-6.4 6-9.9a6 6 0 0 0-6-6zm0 8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+            <div>
+              <div class="label">Quero pedir oração</div>
+              <div class="hint">Envie seu pedido de oração</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Pequenos Grupos — troque o href pelo link -->
+        <a class="btn" href="#" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+            <div>
+              <div class="label">Encontre um Pequeno Grupo</div>
+              <div class="hint">Conecte-se com a comunidade</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Próximos eventos — troque o href pelo link atualizado pela Fernandita -->
+        <a class="btn" href="#" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zM7 12h5v5H7z"/>
+            </svg>
+            <div>
+              <div class="label">Próximos eventos</div>
+              <div class="hint">Fique por dentro da agenda</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Missões — troque o href pelo link -->
+        <a class="btn" href="#" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <div>
+              <div class="label">Missões PIB Rio Verde</div>
+              <div class="hint">Congregações e projetos no Brasil e no mundo</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Mensagens — troque o href pelo link do canal/playlist no YouTube -->
+        <a class="btn" href="https://www.youtube.com/@pibrioverde" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.7 12 4.7 12 4.7s-5.7 0-7.5.4A3 3 0 0 0 2.4 7.2 31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.4 7.5.4 7.5.4s5.7 0 7.5-.4a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/>
+            </svg>
+            <div>
+              <div class="label">Mensagens</div>
+              <div class="hint">Pregações e estudos bíblicos</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+        <!-- NOVO: Faça parte -->
+        <a class="btn" href="faca-parte.html" target="_blank" rel="noopener">
+          <div class="left">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.18L19 8.3V11c0 4.08-2.74 7.9-7 9.18C7.74 18.9 5 15.08 5 11V8.3l7-3.12zm-1 3.32v2h2V8.5h-2zm0 4v2h2v-2h-2z"/>
+            </svg>
+            <div>
+              <div class="label">Faça parte</div>
+              <div class="hint">Membresia, doutrina, discipulado e batismo</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/>
+          </svg>
+        </a>
+
+      </div>
+      
+    <!-- Eventos:
+      
+      <div class="events-section">
+        <div class="events-title">Eventos</div>
+        <a class="btn event-btn" href="https://www.e-inscricao.com/cbb/edbparaoalto-2026-go62" target="_blank" rel="noopener">
+          <div class="left">
+            <img src="assets/MSG.ico" class="icon" alt="nome"/>
+            <div>
+              <div class="label">EBD Para o Alto <span class="event-badge">Novidade</span></div>
+              <div class="hint">Um evento que vai mudar a forma como você ensina a Biblia na igreja. </div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
+        </a>
+
+      -->
+
+        <!-- Exemplo extra (site/telegram/etc):
+        <a class="btn" href="https://seusite.com" target="_blank" rel="noopener">
+          <div class="left">
+            <img src="local do arquivo" class="icon" alt="nome"/>
+            <div>
+              <div class="label">Meu Site</div>
+              <div class="hint">Portfólio e projetos</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
+        </a>
+        -->
+      </div>
+
+      <footer>
+        © <span id="year"></span> PIB Rio Verde • Do outro lado da Rua do outro lado do mundo
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

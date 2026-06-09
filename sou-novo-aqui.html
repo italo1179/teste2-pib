@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sou novo aqui – PIB Rio Verde</title>
+  <link rel="icon" type="image/png" href="assets/PIB.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.10);
+      --text:#eef2ff;
+      --muted:rgba(238,242,255,.72);
+      --btn:rgba(255,255,255,.08);
+      --btnHover:rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --max:600px;
+    }
+
+    @keyframes gradientShift {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    *{ box-sizing:border-box }
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:#0d0050;
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px 16px 48px;
+    }
+
+    body::before, body::after {
+      content:'';
+      position:fixed;
+      inset:0;
+      z-index:-1;
+    }
+    body::before { background: linear-gradient(135deg, #05001f, #1a1a6e, #05001f); }
+    body::after  { background: linear-gradient(135deg, #1a1a6e, #05001f, #1a1a6e); animation: gradientShift 6s ease-in-out infinite; }
+
+    .wrap{ width:100%; max-width:var(--max); }
+
+    /* Voltar */
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:600;
+      text-decoration:none;
+      margin-bottom:18px;
+      transition:color .15s;
+    }
+    .back:hover{ color:var(--text); }
+    .back svg{ width:16px; height:16px; }
+
+    /* Card principal */
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px 24px;
+      backdrop-filter:blur(12px);
+    }
+
+    .page-title{
+      font-size:22px;
+      font-weight:700;
+      margin:0 0 4px;
+    }
+    .page-subtitle{
+      color:var(--muted);
+      font-size:14px;
+      margin:0 0 28px;
+    }
+
+    /* Seções */
+    .section{
+      margin-bottom:28px;
+    }
+    .section-title{
+      font-size:11px;
+      font-weight:700;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      margin-bottom:12px;
+      padding-left:4px;
+    }
+
+    /* Item de info */
+    .info-item{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding:14px;
+      border-radius:14px;
+      background:var(--btn);
+      border:1px solid var(--stroke);
+      margin-bottom:10px;
+    }
+    .info-item svg{
+      width:22px;
+      height:22px;
+      opacity:.85;
+      flex:0 0 auto;
+      margin-top:1px;
+    }
+    .info-label{
+      font-weight:600;
+      font-size:14px;
+      margin-bottom:3px;
+    }
+    .info-text{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    /* Botão de link */
+    a.btn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      text-decoration:none;
+      color:var(--text);
+      padding:14px;
+      border-radius:14px;
+      background:var(--btn);
+      border:1px solid var(--stroke);
+      transition: transform .12s ease, background .12s ease;
+      margin-bottom:10px;
+    }
+    a.btn:hover{ background:var(--btnHover); transform:translateY(-1px); }
+    a.btn:active{ transform:translateY(0px) scale(.99); }
+    .btn-left{ display:flex; align-items:center; gap:12px; }
+    .btn-left svg{ width:22px; height:22px; opacity:.9; flex:0 0 auto; }
+    .btn-label{ font-weight:600; font-size:14px; }
+    .btn-hint{ color:var(--muted); font-size:12px; }
+    .arrow{ width:18px; height:18px; opacity:.7; flex:0 0 auto; }
+
+    footer{
+      margin-top:24px;
+      text-align:center;
+      color:rgba(238,242,255,.45);
+      font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.8 18.4a1 1 0 0 0 0-1.4L6.7 13H19a1 1 0 1 0 0-2H6.7l4.1-4.1a1 1 0 1 0-1.4-1.4L3.6 11.3a1 1 0 0 0 0 1.4l5.8 5.7a1 1 0 0 0 1.4 0z"/></svg>
+      Voltar
+    </a>
+
+    <div class="card">
+      <h1 class="page-title">Sou novo aqui 👋</h1>
+      <p class="page-subtitle">Seja bem-vindo! Aqui você encontra tudo que precisa para sua primeira visita.</p>
+
+      <!-- CULTOS -->
+      <div class="section">
+        <div class="section-title">Cultos</div>
+
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5 11H11V7h1.5v4.8l3.7 2.2-.8 1.3-2.9-1.8V13z"/></svg>
+          <div>
+            <div class="info-label">Horários</div>
+            <div class="info-text">
+              Domingo manhã: 10h15<br>
+              Domingo noite: 19h00<br>
+              <!-- Adicione ou remova horários aqui -->
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.13 3 5 6.13 5 10c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 7a2.5 2.5 0 0 1 0 5z"/></svg>
+          <div>
+            <div class="info-label">Endereço</div>
+            <div class="info-text">
+              Av. Pres. Vargas, 399 – Centro<br>
+              Rio Verde – GO, 75901-040
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm11 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+          <div>
+            <div class="info-label">Estacionamento</div>
+            <div class="info-text">
+              <!-- Descreva aqui onde fica o estacionamento -->
+              Estacionamento disponível na [descreva o local].
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINISTÉRIO INFANTIL -->
+      <div class="section">
+        <div class="section-title">Ministério Infantil</div>
+
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 2C9.01 2 7 4.01 7 6.5S9.01 11 11.5 11 16 8.99 16 6.5 13.99 2 11.5 2zm0 7C10.12 9 9 7.88 9 6.5S10.12 4 11.5 4 14 5.12 14 6.5 12.88 9 11.5 9zM18 9c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM11.5 13C8.66 13 3 14.42 3 17.25V19h17v-1.75C20 14.42 14.34 13 11.5 13zm-6.61 4c.62-.73 3.31-2 6.61-2s5.99 1.27 6.61 2H4.89zm16.11 0h-.01.01zM18 14c-.29 0-.56.03-.83.07 1.07.8 1.83 1.82 1.83 3.18V19h3v-1.75C22 15.42 19.66 14 18 14z"/></svg>
+          <div>
+            <div class="info-label">Crianças são bem-vindas!</div>
+            <div class="info-text">
+              Temos ministério infantil para crianças de [idade mínima] a [idade máxima].<br>
+              <!-- Adicione mais informações aqui -->
+              Local: [sala/andar]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTATO -->
+      <div class="section">
+        <div class="section-title">Fale conosco</div>
+
+        <!-- WhatsApp -->
+        <a class="btn" href="https://wa.me/556499344612?text=Olá!%20Sou%20novo%20e%20gostaria%20de%20saber%20mais." target="_blank" rel="noopener">
+          <div class="btn-left">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.27-.14-1.6-.79-1.85-.88s-.43-.14-.61.14-.7.88-.86 1.06-.32.2-.59.07a7.42 7.42 0 0 1-2.19-1.35 8.2 8.2 0 0 1-1.51-1.88c-.16-.28 0-.43.12-.57s.28-.32.41-.48a1.88 1.88 0 0 0 .28-.46.5.5 0 0 0-.02-.48c-.07-.14-.61-1.47-.83-2s-.44-.46-.61-.47h-.52a1 1 0 0 0-.72.34A3.05 3.05 0 0 0 8 10c0 1.8 1.3 3.54 1.48 3.78s2.56 3.9 6.2 5.47a21 21 0 0 0 2.07.76 5 5 0 0 0 2.28.14 2.8 2.8 0 0 0 1.84-1.3 2.27 2.27 0 0 0 .16-1.3c-.07-.12-.25-.19-.52-.33zM12 2a10 10 0 0 0-8.67 14.96L2 22l5.2-1.36A10 10 0 1 0 12 2zm0 18.18a8.18 8.18 0 0 1-4.17-1.14l-.3-.18-3.09.81.83-3-.19-.31A8.18 8.18 0 1 1 12 20.18z"/></svg>
+            <div>
+              <div class="btn-label">WhatsApp</div>
+              <div class="btn-hint">Tire suas dúvidas pelo WhatsApp</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
+        </a>
+
+        <!-- E-mail — troque o href pelo e-mail da igreja -->
+        <a class="btn" href="mailto:contato@pibrioverde.com.br">
+          <div class="btn-left">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <div>
+              <div class="btn-label">E-mail</div>
+              <!-- Troque pelo e-mail real -->
+              <div class="btn-hint">contato@pibrioverde.com.br</div>
+            </div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <footer>© <span id="year"></span> PIB Rio Verde</footer>
+  </main>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
