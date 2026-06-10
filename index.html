@@ -165,8 +165,12 @@
     .icon{
       width:22px;
       height:22px;
+      min-width:22px;
+      min-height:22px;
       opacity:.95;
-      flex:0 0 auto;
+      flex:0 0 22px;
+      object-fit:contain;
+      display:block;
     }
 
     .label{
@@ -320,7 +324,7 @@
         <a class="btn" href="https://www.youtube.com/@pibrioverde" target="_blank" rel="noopener">
           <div class="left">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.7 12 4.7 12 4.7s-5.7 0-7.5.4A3 3 0 0 0 2.4 7.2 31.6 31.6 0 0 0 2 12a31.6 31.6 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.4 7.5.4 7.5.4s5.7 0 7.5-.4a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 22 12a31.6 31.6 0 0 0-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/></svg>
-            <div><div class="label">YouTube</div><div class="hint">Mensagens</div></div>
+            <div><div class="label">Mensagens</div><div class="hint">Assista nossas pregações!</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
@@ -366,30 +370,14 @@
         <a class="btn" href="sou-novo-aqui.html" target="_blank" rel="noopener">
           <div class="left">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm7 17a1 1 0 0 1-2 0c0-2.76-2.24-5-5-5s-5 2.24-5 5a1 1 0 0 1-2 0c0-3.86 3.14-7 7-7s7 3.14 7 7z"/></svg>
-            <div><div class="label">Sou novo aqui</div><div class="hint">Horários, localização, estacionamento e mais</div></div>
+            <div><div class="label">Eu sou novo aqui</div><div class="hint">Horários, localização, membresia e mais</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
 
         <a class="btn" href="https://forms.gle/qQ1jTewsr28iWLt48" target="_blank" rel="noopener">
           <div class="left">
-            <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <!-- raios de luz -->
-              <line x1="24" y1="2" x2="24" y2="8"/>
-              <line x1="13" y1="5.5" x2="16" y2="10.5"/>
-              <line x1="35" y1="5.5" x2="32" y2="10.5"/>
-              <line x1="6"  y1="13" x2="11" y2="16"/>
-              <line x1="42" y1="13" x2="37" y2="16"/>
-              <!-- mão esquerda -->
-              <path d="M24 38 C20 35 14 30 13 25 L11 18 C10.5 16.5 11.5 15 13 15 C14 15 14.8 15.7 15 16.5 L16 20 C16 20 16.5 16 17 14.5 C17.5 13 19 12.5 20 13 C21 13.5 21.5 15 21 16.5 L20.5 19 C20.5 19 21.5 15.5 22.5 14.5 C23.5 13.5 25 13.8 25.5 15 C26 16 25.5 18.5 25.5 18.5"/>
-              <!-- mão direita (espelho) -->
-              <path d="M24 38 C28 35 34 30 35 25 L37 18 C37.5 16.5 36.5 15 35 15 C34 15 33.2 15.7 33 16.5 L32 20 C32 20 31.5 16 31 14.5 C30.5 13 29 12.5 28 13 C27 13.5 26.5 15 27 16.5 L27.5 19 C27.5 19 26.5 15.5 25.5 14.5 C24.5 13.5 23 13.8 22.5 15 C22 16 22.5 18.5 22.5 18.5"/>
-              <!-- punhos / mangas -->
-              <path d="M11 28 L8 34 L17 38 L21 32"/>
-              <path d="M37 28 L40 34 L31 38 L27 32"/>
-              <!-- linha central das mãos juntas -->
-              <line x1="24" y1="18" x2="24" y2="38"/>
-            </svg>
+            <img src="assets/pray.png" class="icon" alt="Oração"/>
             <div><div class="label">Quero pedir oração</div><div class="hint">Envie seu pedido de oração</div></div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
@@ -403,10 +391,19 @@
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
 
-        <a class="btn" href="faca-parte.html" target="_blank" rel="noopener">
+      </div>
+
+      <!-- GRUPO 3: Eventos -->
+      <div class="events-section">
+        <div class="events-title">Próximos Eventos</div>
+
+        <a class="btn event-btn" href="#" target="_blank" rel="noopener">
           <div class="left">
-            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.18L19 8.3V11c0 4.08-2.74 7.9-7 9.18C7.74 18.9 5 15.08 5 11V8.3l7-3.12zm-1 3.32v2h2V8.5h-2zm0 4v2h2v-2h-2z"/></svg>
-            <div><div class="label">Faça parte</div><div class="hint">Membresia, doutrina, discipulado e batismo</div></div>
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+            <div>
+              <div class="label">Culto de Aniversário da Igreja <span class="event-badge">NOVO</span></div>
+              <div class="hint">22 de Junho • 19h • Templo Central</div>
+            </div>
           </div>
           <svg class="arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
         </a>
