@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Próximos Eventos – PIB Rio Verde</title>
+  <link rel="icon" type="image/png" href="assets/logo2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    @keyframes gradientShift {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    *{ box-sizing:border-box }
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#eef2ff;
+      min-height:100vh;
+      background:#0d0050;
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px 16px 48px;
+    }
+    body::before, body::after { content:''; position:fixed; inset:0; z-index:-1; }
+    body::before { background: linear-gradient(135deg, #05001f, #1a1a6e, #05001f); }
+    body::after  { background: linear-gradient(135deg, #1a1a6e, #05001f, #1a1a6e); animation: gradientShift 6s ease-in-out infinite; }
+
+    .wrap{ width:100%; max-width:600px; }
+
+    .back{
+      display:inline-flex; align-items:center; gap:6px;
+      color:rgba(238,242,255,.72); font-size:13px; font-weight:600;
+      text-decoration:none; margin-bottom:18px; transition:color .15s;
+    }
+    .back:hover{ color:#eef2ff; }
+    .back svg{ width:16px; height:16px; }
+
+    .card{
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);
+      border-radius:18px; box-shadow:0 18px 60px rgba(0,0,0,.45);
+      padding:28px 24px; backdrop-filter:blur(12px);
+    }
+
+    .page-title{ font-size:22px; font-weight:700; margin:0 0 4px; }
+    .page-subtitle{ color:rgba(238,242,255,.72); font-size:14px; margin:0 0 24px; }
+
+    /* =====================================================
+       EVENTOS — como editar:
+       Para adicionar/remover eventos, copie ou apague
+       um bloco <div class="event-card">...</div> abaixo.
+       ===================================================== */
+    .events-list{ display:flex; flex-direction:column; gap:14px; }
+
+    .event-card{
+      background:linear-gradient(135deg, rgba(99,102,241,.10), rgba(236,72,153,.10));
+      border:1px solid rgba(236,72,153,.22);
+      border-radius:14px; padding:16px;
+      display:flex; gap:16px; align-items:flex-start;
+    }
+
+    .event-date{
+      flex:0 0 auto;
+      background:linear-gradient(135deg, #6366f1, #ec4899);
+      border-radius:10px; padding:8px 12px;
+      text-align:center; min-width:52px;
+    }
+    .event-date .day{ font-size:22px; font-weight:700; line-height:1; color:#fff; }
+    .event-date .month{ font-size:10px; font-weight:700; color:rgba(255,255,255,.8); text-transform:uppercase; letter-spacing:1px; }
+
+    .event-info{ flex:1; }
+    .event-title{ font-size:15px; font-weight:700; margin:0 0 4px; }
+    .event-detail{ font-size:13px; color:rgba(238,242,255,.65); line-height:1.5; }
+
+    .event-link{
+      display:inline-flex; align-items:center; gap:6px;
+      margin-top:10px; font-size:12px; font-weight:600;
+      color:#a5b4fc; text-decoration:none; transition:color .15s;
+    }
+    .event-link:hover{ color:#c4b5fd; }
+    .event-link svg{ width:14px; height:14px; }
+
+    .no-events{
+      text-align:center; padding:40px 20px;
+      color:rgba(238,242,255,.4); font-size:14px;
+    }
+
+    footer{
+      margin-top:24px; text-align:center;
+      color:rgba(238,242,255,.45); font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.8 18.4a1 1 0 0 0 0-1.4L6.7 13H19a1 1 0 1 0 0-2H6.7l4.1-4.1a1 1 0 1 0-1.4-1.4L3.6 11.3a1 1 0 0 0 0 1.4l5.8 5.7a1 1 0 0 0 1.4 0z"/></svg>
+      Voltar
+    </a>
+
+    <div class="card">
+      <h1 class="page-title">Próximos Eventos</h1>
+      <p class="page-subtitle">Confira o que está por vir na PIB Rio Verde.</p>
+
+      <div class="events-list">
+
+        <!-- ============================================================
+             EVENTO 1 — edite as informações abaixo conforme necessário
+             Para adicionar mais eventos, copie este bloco inteiro.
+             Para remover, apague o bloco inteiro.
+             ============================================================ -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="day">22</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Culto de Aniversário da Igreja</div>
+            <div class="event-detail">
+              Domingo, 22 de Junho · 19h00<br>
+              Templo Central – Av. Pres. Vargas, 399
+            </div>
+            <!-- Se tiver link de inscrição ou mais info, descomente abaixo:
+            <a class="event-link" href="#" target="_blank" rel="noopener">
+              Saiba mais
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
+            </a>
+            -->
+          </div>
+        </div>
+
+        <!-- ============================================================
+             EVENTO 2 — copie e adapte conforme necessário
+             ============================================================ -->
+        <!-- Descomente para adicionar outro evento:
+        <div class="event-card">
+          <div class="event-date">
+            <div class="day">DD</div>
+            <div class="month">Mês</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Nome do Evento</div>
+            <div class="event-detail">
+              Dia da semana, DD de Mês · HHh00<br>
+              Local
+            </div>
+          </div>
+        </div>
+        -->
+
+      </div>
+    </div>
+
+    <footer>© <span id="year"></span> PIB Rio Verde</footer>
+  </main>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

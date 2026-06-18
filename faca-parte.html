@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faça Parte – PIB Rio Verde</title>
+  <link rel="icon" type="image/png" href="assets/logo2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --stroke: rgba(255,255,255,.10);
+      --text: #eef2ff;
+      --muted: rgba(238,242,255,.65);
+      --btn: rgba(255,255,255,.07);
+      --btnHover: rgba(255,255,255,.13);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 580px;
+    }
+
+    @keyframes gradientShift {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: #0d0050;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 28px 16px 56px;
+    }
+    body::before, body::after { content:''; position:fixed; inset:0; z-index:-1; }
+    body::before { background: linear-gradient(135deg, #05001f, #1a1a6e, #05001f); }
+    body::after  { background: linear-gradient(135deg, #1a1a6e, #05001f, #1a1a6e); animation: gradientShift 6s ease-in-out infinite; }
+
+    .wrap { width: 100%; max-width: var(--max); animation: fadeUp .5s ease both; }
+
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 13px; font-weight: 600;
+      text-decoration: none; margin-bottom: 20px; transition: color .15s;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { width: 16px; height: 16px; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, rgba(99,102,241,.18), rgba(139,92,246,.12));
+      border: 1px solid rgba(99,102,241,.30);
+      border-radius: var(--radius);
+      padding: 28px 24px 24px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(139,92,246,.25), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(99,102,241,.2); border: 1px solid rgba(99,102,241,.35);
+      border-radius: 999px; padding: 4px 12px;
+      font-size: 11px; font-weight: 700; color: #a5b4fc;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .hero-tag svg { width: 12px; height: 12px; }
+    .hero h1 {
+      font-size: 26px; font-weight: 800;
+      margin: 0 0 8px; line-height: 1.2;
+      letter-spacing: -.3px;
+    }
+    .hero h1 span { color: #a5b4fc; }
+    .hero p {
+      margin: 0; color: var(--muted);
+      font-size: 14px; line-height: 1.6;
+    }
+
+    /* Label de seção */
+    .section-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 1.5px; padding-left: 2px;
+      margin-bottom: 8px; margin-top: 18px;
+      display: block;
+    }
+
+    /* Cards de info */
+    .info-card {
+      background: var(--btn);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .info-icon {
+      width: 40px; height: 40px; border-radius: 12px; flex: 0 0 auto;
+      display: grid; place-items: center;
+    }
+    .info-icon svg { width: 20px; height: 20px; }
+    .info-icon.purple { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+    .info-icon.teal   { background: linear-gradient(135deg, #0d9488, #0891b2); }
+    .info-icon.rose   { background: linear-gradient(135deg, #e11d48, #9333ea); }
+    .info-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .info-text  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* Passos */
+    .steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 10px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px; position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute; left: 33px; top: 48px;
+      width: 1px; height: calc(100% - 34px);
+      background: rgba(99,102,241,.3);
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%; flex: 0 0 auto;
+      background: rgba(99,102,241,.2); border: 1px solid rgba(99,102,241,.4);
+      color: #a5b4fc; font-size: 12px; font-weight: 800;
+      display: grid; place-items: center;
+    }
+    .step-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .step-text  { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* Aviso de transferência */
+    .transfer-card {
+      background: linear-gradient(135deg, rgba(13,148,136,.12), rgba(8,145,178,.08));
+      border: 1px solid rgba(13,148,136,.25);
+      border-radius: 14px; padding: 14px 16px;
+      display: flex; gap: 12px; align-items: center;
+      margin-bottom: 14px;
+    }
+    .transfer-card svg { width: 20px; height: 20px; color: #5eead4; flex: 0 0 auto; }
+    .transfer-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .transfer-text strong { color: #5eead4; }
+
+    /* Botão principal */
+    a.cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px;
+      border-radius: 14px; text-decoration: none;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff; font-size: 15px; font-weight: 700;
+      transition: opacity .15s, transform .12s;
+      margin-top: 4px;
+    }
+    a.cta-btn:hover { opacity: .9; transform: translateY(-1px); }
+    a.cta-btn:active { transform: translateY(0); }
+    a.cta-btn svg { width: 20px; height: 20px; }
+
+    footer {
+      margin-top: 28px; text-align: center;
+      color: rgba(238,242,255,.35); font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.8 18.4a1 1 0 0 0 0-1.4L6.7 13H19a1 1 0 1 0 0-2H6.7l4.1-4.1a1 1 0 1 0-1.4-1.4L3.6 11.3a1 1 0 0 0 0 1.4l5.8 5.7a1 1 0 0 0 1.4 0z"/></svg>
+      Voltar
+    </a>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Membresia
+      </div>
+      <h1>Faça parte da <span>família PIB</span> 🤝</h1>
+      <p>Ninguém foi chamado para caminhar sozinho. Se você quer dar o próximo passo — batismo, discipulado ou membresia — este é o lugar certo.</p>
+    </div>
+
+    <!-- QUEM SOMOS -->
+    <span class="section-label">Quem somos</span>
+
+    <div class="info-card">
+      <div class="info-icon purple">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 14H8v-2h8v2zm0-4H8v-2h8v2zm0-4H8V6h8v2z"/></svg>
+      </div>
+      <div>
+        <div class="info-title">Igreja Batista Convencional</div>
+        <div class="info-text">Somos filiados à <strong style="color:var(--text)">Convenção Batista Brasileira</strong>. Cremos na Bíblia como única regra de fé, na salvação pela graça mediante a fé em Cristo e no batismo de quem professa fé.</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon teal">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </div>
+      <div>
+        <div class="info-title">Cooperamos com milhares de igrejas</div>
+        <div class="info-text">Como batistas, cooperamos voluntariamente para anunciar o evangelho e cumprir a missão de fazer discípulos no Brasil e no mundo.</div>
+      </div>
+    </div>
+
+    <!-- PASSOS -->
+    <span class="section-label">Como dar o próximo passo</span>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Venha nos conhecer</div>
+          <div class="step-text">Participe dos cultos de domingo. Não precisa de nada prévio — só apareça.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Discipulado</div>
+          <div class="step-text">Caminharemos com você no estudo da Palavra para prepará-lo nos fundamentos da fé.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Batismo</div>
+          <div class="step-text">O batismo por imersão é o passo público de obediência após a profissão de fé em Cristo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Membresia</div>
+          <div class="step-text">Uma conversa com a liderança e você passa a fazer parte oficialmente da família PIB Rio Verde.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSFERÊNCIA -->
+    <div class="transfer-card">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      <div class="transfer-text">
+        <strong>Já foi batizado por imersão?</strong> Se sim, podemos recebê-lo por <strong>transferência ou aclamação</strong> — sem precisar repetir o processo.
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <span class="section-label">Pronto para o próximo passo?</span>
+    <a class="cta-btn" href="https://forms.gle/muXcYvvgeVL2xqGw9" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14-5-5 1.4-1.4L12 14.2l7.6-7.6L21 8l-9 9z"/></svg>
+      Preencher o Formulário
+    </a>
+
+    <footer>© <span id="year"></span> PIB Rio Verde</footer>
+  </main>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
