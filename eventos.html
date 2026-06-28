@@ -153,28 +153,10 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // ================================================================
-    //  CONFIGURAÇÃO — cole aqui o ID da sua Planilha Google
-    //
-    //  Como obter o ID:
-    //  1. Abra sua planilha em sheets.google.com
-    //  2. Olhe a URL: .../spreadsheets/d/  ID_AQUI  /edit
-    //  3. Cole o ID abaixo entre as aspas
-    //
-    //  A planilha deve ter as colunas (na ordem):
-    //    A: Dia    (ex: 22)
-    //    B: Mês    (ex: Jun)
-    //    C: Título (ex: Culto de Aniversário)
-    //    D: Detalhes (ex: Domingo, 22 de Junho · 19h00\nTemplo Central)
-    //    E: Link   (opcional — URL para inscrição ou mais info)
-    //    F: Texto do link (opcional — ex: Saiba mais)
-    //
-    //  A planilha precisa estar publicada na web:
-    //    Arquivo → Compartilhar → Publicar na web → Publicar
-    // ================================================================
-    const SHEET_ID = "COLE_O_ID_DA_PLANILHA_AQUI";
+    // URL pública da planilha (CSV) — não alterar
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSMTVf2VtsoB3ePFs-WuT4DO20KVaz0X4VYXiz5vagHvcp9lFr791fla12Kw1KFTXVE5asWaEX5ipW/pub?output=csv";
 
-    // Eventos fixos de fallback (aparecem se a planilha não estiver configurada)
+    // Evento de exemplo (aparece enquanto a planilha estiver vazia)
     const FALLBACK_EVENTS = [
       {
         dia: "22",
@@ -185,6 +167,32 @@
         linkTexto: ""
       }
     ];
+
+    // Parser de CSV (lida com vírgulas dentro de aspas)
+    function parseCSV(text) {
+      const rows = [];
+      const lines = text.replace(/\r/g, "").split("\n");
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        const cols = [];
+        let current = "";
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else inQuotes = !inQuotes;
+          } else if (ch === "," && !inQuotes) {
+            cols.push(current); current = "";
+          } else {
+            current += ch;
+          }
+        }
+        cols.push(current);
+        rows.push(cols);
+      }
+      return rows;
+    }
 
     function renderEvents(events) {
       const list = document.getElementById("events-list");
@@ -204,7 +212,7 @@
         card.className = "event-card";
         card.style.animationDelay = (i * 60) + "ms";
 
-        const detailLines = (ev.detalhes || "").split("\\n").join("<br>");
+        const detailLines = (ev.detalhes || "").replace(/\\n/g, "<br>").replace(/\n/g, "<br>");
 
         const linkHtml = ev.link
           ? `<a class="event-link" href="${ev.link}" target="_blank" rel="noopener">
@@ -229,35 +237,29 @@
     }
 
     async function loadFromSheets() {
-      if (!SHEET_ID || SHEET_ID === "COLE_O_ID_DA_PLANILHA_AQUI") {
-        renderEvents(FALLBACK_EVENTS);
-        return;
-      }
-
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-        const res = await fetch(url);
+        const res = await fetch(CSV_URL);
         const text = await res.text();
-
-        // A resposta vem envolta em google.visualization.Query.setResponse(...)
-        const json = JSON.parse(text.slice(47, -2));
-        const rows = json.table.rows;
+        const rows = parseCSV(text);
 
         const events = rows
-          .map(r => ({
-            dia:      r.c[0]?.v?.toString() || "",
-            mes:      r.c[1]?.v || "",
-            titulo:   r.c[2]?.v || "",
-            detalhes: r.c[3]?.v || "",
-            link:     r.c[4]?.v || "",
-            linkTexto:r.c[5]?.v || ""
+          .map(cols => ({
+            dia:       (cols[0] || "").trim(),
+            mes:       (cols[1] || "").trim(),
+            titulo:    (cols[2] || "").trim(),
+            detalhes:  (cols[3] || "").trim(),
+            link:      (cols[4] || "").trim(),
+            linkTexto: (cols[5] || "").trim()
           }))
-          .filter(e => e.titulo); // ignora linhas vazias
+          // Só inclui linhas onde "Dia" é número (filtra cabeçalhos e linhas vazias)
+          .filter(e => e.titulo && /^\d+$/.test(e.dia));
 
-        renderEvents(events);
-        document.getElementById("source-badge").style.display = "inline-flex";
+        renderEvents(events.length ? events : FALLBACK_EVENTS);
+        if (events.length) {
+          document.getElementById("source-badge").style.display = "inline-flex";
+        }
       } catch (e) {
-        console.warn("Erro ao carregar planilha, usando eventos fixos.", e);
+        console.warn("Erro ao carregar planilha:", e);
         renderEvents(FALLBACK_EVENTS);
       }
     }

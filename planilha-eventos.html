@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configurar Planilha de Eventos – PIB Rio Verde</title>
+  <link rel="icon" type="image/png" href="assets/logo2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @keyframes gradientShift { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      color: #eef2ff;
+      min-height: 100vh;
+      background: #0d0050;
+      padding: 32px 16px 64px;
+    }
+    body::before, body::after { content:''; position:fixed; inset:0; z-index:-1; }
+    body::before { background: linear-gradient(135deg,#05001f,#1a1a6e,#05001f); }
+    body::after  { background: linear-gradient(135deg,#1a1a6e,#05001f,#1a1a6e); animation: gradientShift 6s ease-in-out infinite; }
+
+    .wrap { max-width: 700px; margin: 0 auto; }
+
+    /* ── Voltar ── */
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: rgba(238,242,255,.65); font-size: 13px; font-weight: 600;
+      text-decoration: none; margin-bottom: 20px; transition: color .15s;
+    }
+    .back:hover { color: #eef2ff; }
+
+    /* ── Header ── */
+    .header {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 18px;
+      padding: 28px 28px 24px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease;
+    }
+    .header-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .header-icon {
+      width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg,#6366f1,#ec4899);
+      display: grid; place-items: center;
+    }
+    .header h1 { font-size: 21px; font-weight: 700; }
+    .header p  { font-size: 13px; color: rgba(238,242,255,.7); line-height: 1.6; }
+
+    /* ── Card base ── */
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      margin-bottom: 16px;
+      animation: fadeUp .4s ease;
+    }
+
+    /* ── Título de seção ── */
+    .section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.4px; color: rgba(238,242,255,.5);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::after {
+      content:''; flex:1; height:1px; background: rgba(255,255,255,.08);
+    }
+
+    /* ── Passos ── */
+    .steps { display: flex; flex-direction: column; gap: 14px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 16px; border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg,#6366f1,#ec4899);
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+    }
+    .step-body { flex: 1; }
+    .step-body strong { font-size: 14px; display: block; margin-bottom: 3px; }
+    .step-body span   { font-size: 12px; color: rgba(238,242,255,.65); line-height: 1.7; }
+    .step-body code {
+      background: rgba(99,102,241,.25); color: #a5b4fc;
+      padding: 1px 6px; border-radius: 5px; font-size: 12px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Bloco do script ── */
+    .script-wrap {
+      position: relative;
+      background: rgba(0,0,10,.5);
+      border: 1px solid rgba(99,102,241,.3);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .script-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(99,102,241,.15);
+      border-bottom: 1px solid rgba(99,102,241,.2);
+    }
+    .script-topbar span { font-size: 12px; color: #a5b4fc; font-weight: 600; }
+    .btn-copy {
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg,#6366f1,#ec4899);
+      border: none; border-radius: 8px;
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 6px 14px; cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      font-family: inherit;
+    }
+    .btn-copy:hover { opacity: .9; }
+    .btn-copy:active { transform: scale(.97); }
+
+    pre {
+      padding: 16px; overflow-x: auto;
+      font-size: 12px; line-height: 1.7;
+      color: #c5cae9;
+      font-family: 'Courier New', Consolas, monospace;
+      max-height: 420px; overflow-y: auto;
+    }
+    /* Simple syntax highlight */
+    pre .kw  { color: #c792ea; }   /* keywords */
+    pre .fn  { color: #82aaff; }   /* functions/methods */
+    pre .str { color: #c3e88d; }   /* strings */
+    pre .cm  { color: #546e7a; }   /* comments */
+    pre .num { color: #f78c6c; }   /* numbers */
+
+    /* ── Preview da planilha ── */
+    .preview-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: rgba(238,242,255,.45); margin-bottom: 10px;
+    }
+    .sheet-preview {
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      font-family: Arial, sans-serif;
+    }
+    .sh-row { display: grid; grid-template-columns: 60px 72px 1fr 1.2fr; }
+    .sh-cell {
+      padding: 9px 10px; font-size: 11px;
+      border-right: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .sh-row.r-title .sh-cell { background:#0d0050; color:#eef2ff; font-weight:700; font-size:13px; text-align:center; grid-column:1/-1; }
+    .sh-row.r-warn  .sh-cell { background:#1a1a6e; color:#c5cae9; font-size:10px; font-style:italic; text-align:center; grid-column:1/-1; }
+    .sh-row.r-head  .sh-cell { background:#3949ab; color:#fff; font-weight:700; font-size:11px; text-align:center; }
+    .sh-row.r-desc  .sh-cell { background:#5c6bc0; color:#e8eaf6; font-size:9px; font-style:italic; text-align:center; }
+    .sh-row.r-ex    .sh-cell { background:#e8eaf6; color:#1a237e; font-weight:600; font-size:11px; }
+    .sh-row.r-ex    .sh-cell:first-child { text-align:center; }
+    .sh-row.r-ex    .sh-cell:nth-child(2) { text-align:center; }
+    .sh-row.r-data  .sh-cell { background:#fff; color:#444; font-size:11px; }
+    .sh-row.r-data.alt .sh-cell { background:#f3f4fb; }
+
+    /* ── Alerta final ── */
+    .alert-box {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: rgba(34,197,94,.08);
+      border: 1px solid rgba(34,197,94,.25);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .alert-box svg { flex-shrink: 0; margin-top: 1px; opacity: .8; color: #86efac; }
+    .alert-box p { font-size: 13px; color: rgba(238,242,255,.8); line-height: 1.7; }
+    .alert-box strong { color: #86efac; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
+      background: linear-gradient(135deg,#6366f1,#ec4899);
+      color: #fff; padding: 10px 22px; border-radius: 30px;
+      font-size: 13px; font-weight: 700; z-index: 99;
+      transition: transform .3s ease; white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(99,102,241,.5);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10.8 18.4a1 1 0 0 0 0-1.4L6.7 13H19a1 1 0 1 0 0-2H6.7l4.1-4.1a1 1 0 1 0-1.4-1.4L3.6 11.3a1 1 0 0 0 0 1.4l5.8 5.7a1 1 0 0 0 1.4 0z"/></svg>
+    Voltar ao início
+  </a>
+
+  <!-- ── Cabeçalho ── -->
+  <div class="header">
+    <div class="header-row">
+      <div class="header-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+      </div>
+      <div>
+        <h1>Configurar Planilha de Eventos</h1>
+      </div>
+    </div>
+    <p>
+      Siga os passos abaixo <strong>uma única vez</strong>. Depois disso, a pessoa responsável pelos eventos
+      só precisa abrir a planilha no Google e editar normalmente — sem tocar em nenhum código.
+    </p>
+  </div>
+
+  <!-- ── Aviso importante ── -->
+  <div style="
+    display:flex; gap:12px; align-items:flex-start;
+    background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.35);
+    border-radius:14px; padding:14px 16px; margin-bottom:16px;
+  ">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#fca5a5" style="flex-shrink:0;margin-top:1px"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+    <p style="font-size:13px; color:rgba(238,242,255,.85); line-height:1.7;">
+      <strong style="color:#fca5a5;">Atenção:</strong> Esta página é só um guia. Não tente abrir ou enviar este arquivo para o Google Drive — isso não cria a planilha.<br>
+      Siga os passos abaixo e tudo vai funcionar corretamente.
+    </p>
+  </div>
+
+  <!-- ── Passo a passo ── -->
+  <div class="card">
+    <div class="section-title">Passo a passo</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Crie uma planilha em branco no Google Sheets</strong>
+          <span>Clique no botão abaixo — ele abre uma planilha nova automaticamente. <strong style="color:#fca5a5">Não tente abrir o arquivo desta página no Google Drive</strong>, isso não funciona.</span>
+          <a href="https://sheets.new" target="_blank" rel="noopener" style="
+            display:inline-flex; align-items:center; gap:8px; margin-top:10px;
+            background:linear-gradient(135deg,#22c55e,#16a34a);
+            color:#fff; font-weight:700; font-size:13px; text-decoration:none;
+            padding:9px 18px; border-radius:10px; transition:opacity .15s;
+          " onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+            Abrir nova planilha no Google Sheets
+          </a>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Abra o editor de script</strong>
+          <span>No menu superior da planilha, vá em <code>Extensões</code> → <code>Apps Script</code>. Uma nova aba vai abrir.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Apague o código existente e cole o novo</strong>
+          <span>Selecione tudo que está no editor (<code>Ctrl + A</code>), delete, e cole o código abaixo usando o botão "Copiar Script".</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Clique em ▶ Executar</strong>
+          <span>Clique no botão de play (▶) no topo do editor. Na primeira vez, o Google vai pedir permissão — clique em <code>Permitir</code>. A planilha será criada automaticamente.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Publique a planilha na web</strong>
+          <span>De volta na planilha, vá em <code>Arquivo</code> → <code>Compartilhar</code> → <code>Publicar na web</code> → selecione a aba <code>Eventos PIB Rio Verde</code> → formato <code>CSV</code> → clique em <code>Publicar</code>.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <strong>Copie o ID da planilha e me envie</strong>
+          <span>Olhe a URL da planilha: <code>docs.google.com/spreadsheets/d/<strong style="color:#a5b4fc">ID_AQUI</strong>/edit</code>. Copie o trecho longo entre <code>/d/</code> e <code>/edit</code> e me manda — eu coloco no site.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Script ── -->
+  <div class="card">
+    <div class="section-title">Script para copiar</div>
+    <div class="script-wrap">
+      <div class="script-topbar">
+        <span>📋 &nbsp;configurarPlanilha.gs</span>
+        <button class="btn-copy" onclick="copiarScript()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+          Copiar Script
+        </button>
+      </div>
+<pre id="script-code">function configurarPlanilha() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getActiveSheet();
+
+  sheet.setName("Eventos PIB Rio Verde");
+  sheet.clear();
+  sheet.clearFormats();
+
+  // Largura das colunas
+  sheet.setColumnWidth(1, 65);   // A: Dia
+  sheet.setColumnWidth(2, 82);   // B: Mes
+  sheet.setColumnWidth(3, 300);  // C: Titulo
+  sheet.setColumnWidth(4, 360);  // D: Detalhes
+  sheet.setColumnWidth(5, 220);  // E: Link
+  sheet.setColumnWidth(6, 160);  // F: Texto do link
+
+  // Linha 1 - Titulo principal
+  sheet.setRowHeight(1, 58);
+  const r1 = sheet.getRange("A1:F1");
+  r1.merge();
+  r1.setValue("EVENTOS - PIB RIO VERDE");
+  r1.setBackground("#0d0050");
+  r1.setFontColor("#eef2ff");
+  r1.setFontSize(17);
+  r1.setFontWeight("bold");
+  r1.setHorizontalAlignment("center");
+  r1.setVerticalAlignment("middle");
+
+  // Linha 2 - Aviso de instrucao
+  sheet.setRowHeight(2, 30);
+  const r2 = sheet.getRange("A2:F2");
+  r2.merge();
+  r2.setValue("Preencha apenas a partir da linha 6. Nao altere as linhas 1 a 5.");
+  r2.setBackground("#1a1a6e");
+  r2.setFontColor("#c5cae9");
+  r2.setFontSize(11);
+  r2.setFontStyle("italic");
+  r2.setHorizontalAlignment("center");
+  r2.setVerticalAlignment("middle");
+
+  // Linha 3 - Cabecalho das colunas
+  sheet.setRowHeight(3, 38);
+  const r3 = sheet.getRange("A3:F3");
+  r3.setValues([["DIA", "MES", "NOME DO EVENTO", "DETALHES (horario e local)", "LINK (opcional)", "TEXTO DO LINK"]]);
+  r3.setBackground("#3949ab");
+  r3.setFontColor("#ffffff");
+  r3.setFontWeight("bold");
+  r3.setFontSize(12);
+  r3.setHorizontalAlignment("center");
+  r3.setVerticalAlignment("middle");
+  r3.setBorder(true, true, true, true, true, true,
+    "#5c6bc0", SpreadsheetApp.BorderStyle.SOLID);
+
+  // Linha 4 - Descricao de cada coluna
+  sheet.setRowHeight(4, 44);
+  const r4 = sheet.getRange("A4:F4");
+  r4.setValues([[
+    "Numero\ndo dia",
+    "Abreviacao\ndo mes",
+    "Nome oficial do evento como sera divulgado",
+    "Horario, local e detalhes importantes",
+    "URL de inscricao ou informacoes\n(deixe vazio se nao tiver)",
+    "Texto do botao\nEx: Saiba mais"
+  ]]);
+  r4.setBackground("#5c6bc0");
+  r4.setFontColor("#e8eaf6");
+  r4.setFontSize(10);
+  r4.setFontStyle("italic");
+  r4.setHorizontalAlignment("center");
+  r4.setVerticalAlignment("middle");
+  r4.setWrap(true);
+
+  // Linha 5 - Linha de exemplo
+  sheet.setRowHeight(5, 50);
+  const r5 = sheet.getRange("A5:F5");
+  r5.setValues([["22", "Jul", "Culto de Aniversario da Igreja",
+    "Domingo · 19h00\nAuditorio Principal", "", ""]]);
+  r5.setBackground("#e8eaf6");
+  r5.setFontColor("#1a237e");
+  r5.setFontWeight("bold");
+  r5.setFontSize(11);
+  r5.setVerticalAlignment("middle");
+  sheet.getRange("A5").setHorizontalAlignment("center");
+  sheet.getRange("B5").setHorizontalAlignment("center");
+  sheet.getRange("D5").setWrap(true);
+  sheet.getRange("C5").setNote(
+    "Esta e uma linha de exemplo. Pode editar ou excluir."
+  );
+
+  // Linhas 6 a 30 - Area de preenchimento
+  for (let i = 6; i <= 30; i++) {
+    sheet.setRowHeight(i, 48);
+    const row = sheet.getRange(i, 1, 1, 6);
+    row.setBackground(i % 2 === 0 ? "#f3f4fb" : "#ffffff");
+    row.setFontSize(12);
+    row.setFontColor("#1a1a2e");
+    row.setVerticalAlignment("middle");
+    row.setBorder(null, null, true, null, null, null,
+      "#dde0f0", SpreadsheetApp.BorderStyle.SOLID);
+    sheet.getRange(i, 1).setHorizontalAlignment("center");
+    sheet.getRange(i, 2).setHorizontalAlignment("center");
+    sheet.getRange(i, 4).setWrap(true);
+  }
+
+  // Dropdown de meses na coluna B (linhas 5 a 30)
+  const monthRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList([
+      "Jan","Fev","Mar","Abr","Mai","Jun",
+      "Jul","Ago","Set","Out","Nov","Dez"
+    ])
+    .setAllowInvalid(false)
+    .setHelpText("Selecione o mes do evento na lista")
+    .build();
+  sheet.getRange("B5:B30").setDataValidation(monthRule);
+
+  // Travar as 4 primeiras linhas na tela
+  sheet.setFrozenRows(4);
+
+  // Protecao do cabecalho (linhas 1 a 4) - aviso ao tentar editar
+  const prot = sheet.getRange("A1:F4").protect();
+  prot.setDescription("Cabecalho - nao editar");
+  prot.setWarningOnly(true);
+
+  // Protecao da linha de exemplo - aviso ao tentar editar
+  const protEx = sheet.getRange("A5:F5").protect();
+  protEx.setDescription("Linha de exemplo - pode apagar quando quiser");
+  protEx.setWarningOnly(true);
+
+  SpreadsheetApp.getUi().alert(
+    "Planilha configurada com sucesso!\n\n" +
+    "Proximo passo - publicar para o site funcionar:\n" +
+    "Arquivo > Compartilhar > Publicar na web\n" +
+    "Selecione a aba 'Eventos PIB Rio Verde'\n" +
+    "Formato: CSV > Publicar\n\n" +
+    "Depois copie o ID da URL da planilha\n" +
+    "(o trecho longo entre /d/ e /edit)\n" +
+    "e me mande para eu colocar no site."
+  );
+}</pre>
+    </div>
+  </div>
+
+  <!-- ── Preview da planilha ── -->
+  <div class="card">
+    <div class="section-title">Como ficará a planilha</div>
+    <div class="preview-label">Prévia visual</div>
+    <div class="sheet-preview">
+      <div class="sh-row r-title"><div class="sh-cell">EVENTOS – PIB RIO VERDE</div></div>
+      <div class="sh-row r-warn"><div class="sh-cell">Preencha apenas a partir da linha 6. Não altere as linhas 1 a 5.</div></div>
+      <div class="sh-row r-head">
+        <div class="sh-cell">DIA</div>
+        <div class="sh-cell">MÊS</div>
+        <div class="sh-cell">NOME DO EVENTO</div>
+        <div class="sh-cell">DETALHES</div>
+      </div>
+      <div class="sh-row r-desc">
+        <div class="sh-cell">Número do dia</div>
+        <div class="sh-cell">Abreviação do mês</div>
+        <div class="sh-cell">Nome oficial do evento</div>
+        <div class="sh-cell">Horário, local e detalhes</div>
+      </div>
+      <div class="sh-row r-ex">
+        <div class="sh-cell">22</div>
+        <div class="sh-cell">Jul</div>
+        <div class="sh-cell">Culto de Aniversário da Igreja</div>
+        <div class="sh-cell">Domingo · 19h00 · Auditório Principal</div>
+      </div>
+      <div class="sh-row r-data">
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+      </div>
+      <div class="sh-row r-data alt">
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+      </div>
+      <div class="sh-row r-data">
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+        <div class="sh-cell"></div><div class="sh-cell"></div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(238,242,255,.4);margin-top:10px;">
+      O cabeçalho fica travado no topo — ao rolar para baixo, as colunas continuam visíveis.
+      A coluna "Mês" terá um menu dropdown com os 12 meses para facilitar o preenchimento.
+    </p>
+  </div>
+
+  <!-- ── O que o administrador faz ── -->
+  <div class="card">
+    <div class="section-title">O que a pessoa responsável faz no dia a dia</div>
+    <div class="alert-box">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      <p>
+        Depois da configuração, a pessoa responsável <strong>só precisa abrir a planilha no Google</strong>
+        e preencher as linhas a partir da linha 6 — sem tocar em código, sem instalar nada.
+        <br><br>
+        Ela preenche: <strong>Dia · Mês (dropdown) · Nome do evento · Detalhes · Link (opcional)</strong>.
+        <br>
+        O site atualiza automaticamente em poucos segundos.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">✅ Script copiado!</div>
+
+<script>
+  function copiarScript() {
+    const texto = document.getElementById('script-code').innerText;
+    navigator.clipboard.writeText(texto).then(() => {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    });
+  }
+</script>
+</body>
+</html>
