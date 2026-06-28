@@ -52,19 +52,35 @@
     .page-title{ font-size:22px; font-weight:700; margin:0 0 4px; }
     .page-subtitle{ color:rgba(238,242,255,.72); font-size:14px; margin:0 0 24px; }
 
+    /* Imagem clicável */
     .infographic-container{
       width:100%;
       border-radius:12px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.10);
+      position:relative;
+      cursor:zoom-in;
     }
     .infographic-container img{
       width:100%;
       height:auto;
       display:block;
+      transition: opacity .2s;
     }
+    .infographic-container:hover img{ opacity:.92; }
 
-    /* Placeholder para quando a imagem não estiver disponível */
+    .zoom-hint{
+      position:absolute; bottom:10px; right:10px;
+      background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+      color:#fff; font-size:11px; font-weight:600;
+      padding:5px 10px; border-radius:20px;
+      display:flex; align-items:center; gap:5px;
+      pointer-events:none; transition:opacity .2s;
+    }
+    .zoom-hint svg{ width:13px; height:13px; }
+    .infographic-container:hover .zoom-hint{ opacity:0; }
+
+    /* Placeholder */
     .img-placeholder{
       width:100%; padding:60px 20px;
       background:rgba(255,255,255,.04);
@@ -73,6 +89,71 @@
       font-size:14px; line-height:1.6;
     }
     .img-placeholder svg{ width:48px; height:48px; opacity:.3; margin-bottom:12px; display:block; margin-inline:auto; }
+
+    /* ===================== LIGHTBOX ===================== */
+    .lightbox{
+      position:fixed; inset:0; z-index:9999;
+      background:rgba(0,0,0,.92); backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none;
+      transition: opacity .25s;
+    }
+    .lightbox.open{ opacity:1; pointer-events:all; }
+
+    .lb-viewport{
+      position:relative;
+      width:100%; height:100%;
+      overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    .lb-img-wrap{
+      position:absolute;
+      transform-origin:center center;
+      cursor:grab;
+      user-select:none;
+    }
+    .lb-img-wrap.dragging{ cursor:grabbing; }
+    .lb-img-wrap img{
+      display:block;
+      max-width:90vw; max-height:88vh;
+      border-radius:8px;
+      pointer-events:none;
+      box-shadow:0 30px 80px rgba(0,0,0,.6);
+    }
+
+    /* Barra de controles */
+    .lb-controls{
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      display:flex; align-items:center; gap:8px;
+      background:rgba(15,10,50,.85); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.12); border-radius:40px;
+      padding:8px 14px;
+    }
+    .lb-btn{
+      background:rgba(255,255,255,.10); border:none; color:#eef2ff;
+      width:36px; height:36px; border-radius:50%;
+      font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .15s;
+      flex-shrink:0;
+    }
+    .lb-btn:hover{ background:rgba(255,255,255,.22); }
+    .lb-btn svg{ width:18px; height:18px; }
+
+    .lb-zoom-label{
+      font-size:12px; font-weight:600; color:rgba(238,242,255,.6);
+      min-width:44px; text-align:center;
+    }
+
+    /* Fechar */
+    .lb-close{
+      position:fixed; top:16px; right:16px;
+      background:rgba(255,255,255,.12); border:none; color:#eef2ff;
+      width:40px; height:40px; border-radius:50%;
+      font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .15s;
+    }
+    .lb-close:hover{ background:rgba(255,255,255,.25); }
 
     footer{
       margin-top:24px; text-align:center;
@@ -92,16 +173,17 @@
       <h1 class="page-title">Missões PIB Rio Verde</h1>
       <p class="page-subtitle">Como são belos nos montes os pés daqueles que anunciam boas-novas... do outro lado da rua, do outro lado do mundo.</p>
 
-      <div class="infographic-container">
-        <!--
-          Salve o infográfico de missões como: assets/missoes.png
-          e ele aparecerá automaticamente aqui.
-        -->
+      <div class="infographic-container" id="img-container" onclick="openLightbox()" role="button" aria-label="Ampliar imagem de missões" tabindex="0">
         <img
+          id="missoes-img"
           src="assets/missoes.png"
           alt="Infográfico de Missões PIB Rio Verde"
-          onerror="this.style.display='none'; document.getElementById('placeholder').style.display='block';"
+          onerror="this.closest('.infographic-container').style.display='none'; document.getElementById('placeholder').style.display='block';"
         />
+        <div class="zoom-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          Clique para ampliar
+        </div>
       </div>
 
       <div id="placeholder" class="img-placeholder" style="display:none;">
@@ -113,6 +195,158 @@
     <footer>© <span id="year"></span> PIB Rio Verde</footer>
   </main>
 
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizador de imagem">
+    <button class="lb-close" onclick="closeLightbox()" title="Fechar (Esc)">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+
+    <div class="lb-viewport" id="lb-viewport">
+      <div class="lb-img-wrap" id="lb-img-wrap">
+        <img id="lb-img" src="" alt="Infográfico de Missões PIB Rio Verde - ampliado" draggable="false" />
+      </div>
+    </div>
+
+    <div class="lb-controls">
+      <button class="lb-btn" onclick="zoom(-0.25)" title="Diminuir zoom">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+      </button>
+      <span class="lb-zoom-label" id="zoom-label">100%</span>
+      <button class="lb-btn" onclick="zoom(+0.25)" title="Aumentar zoom">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </button>
+      <button class="lb-btn" onclick="resetZoom()" title="Tamanho original">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 9H5V5h4V3H3v6h2V7h2v2zm6-4h2v2h2V3h-6v2h2zm-2 10H7v-2H5v6h6v-2H9v-2zm8 2h-2v2h-2v2h6v-6h-2v2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Acessibilidade: abrir lightbox com Enter/Space
+    document.getElementById("img-container").addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(); }
+    });
+
+    // ===================== LIGHTBOX =====================
+    let scale = 1, minScale = 0.5, maxScale = 5;
+    let posX = 0, posY = 0;
+    let dragging = false, startX = 0, startY = 0, lastX = 0, lastY = 0;
+    // Pinch-to-zoom
+    let lastPinchDist = 0;
+
+    const lb        = document.getElementById("lightbox");
+    const wrap      = document.getElementById("lb-img-wrap");
+    const lbImg     = document.getElementById("lb-img");
+    const viewport  = document.getElementById("lb-viewport");
+    const zoomLabel = document.getElementById("zoom-label");
+
+    function applyTransform() {
+      wrap.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+      zoomLabel.textContent = Math.round(scale * 100) + "%";
+    }
+
+    function openLightbox() {
+      lbImg.src = document.getElementById("missoes-img").src;
+      scale = 1; posX = 0; posY = 0;
+      applyTransform();
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function zoom(delta) {
+      scale = Math.min(maxScale, Math.max(minScale, scale + delta));
+      applyTransform();
+    }
+
+    function resetZoom() {
+      scale = 1; posX = 0; posY = 0;
+      applyTransform();
+    }
+
+    // Fechar ao clicar no fundo (não na imagem/controles)
+    lb.addEventListener("click", e => {
+      if (e.target === lb || e.target === viewport) closeLightbox();
+    });
+
+    // Fechar com Esc
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeLightbox();
+      if (lb.classList.contains("open")) {
+        if (e.key === "+" || e.key === "=") zoom(+0.25);
+        if (e.key === "-")                  zoom(-0.25);
+        if (e.key === "0")                  resetZoom();
+      }
+    });
+
+    // Scroll para zoom (desktop)
+    viewport.addEventListener("wheel", e => {
+      if (!lb.classList.contains("open")) return;
+      e.preventDefault();
+      zoom(e.deltaY < 0 ? +0.15 : -0.15);
+    }, { passive: false });
+
+    // Arrastar (mouse)
+    wrap.addEventListener("mousedown", e => {
+      if (e.button !== 0) return;
+      dragging = true; wrap.classList.add("dragging");
+      startX = e.clientX - posX; startY = e.clientY - posY;
+    });
+    document.addEventListener("mousemove", e => {
+      if (!dragging) return;
+      posX = e.clientX - startX; posY = e.clientY - startY;
+      applyTransform();
+    });
+    document.addEventListener("mouseup", () => { dragging = false; wrap.classList.remove("dragging"); });
+
+    // Touch: arrastar e pinch-to-zoom (mobile)
+    wrap.addEventListener("touchstart", e => {
+      if (e.touches.length === 1) {
+        dragging = true;
+        startX = e.touches[0].clientX - posX;
+        startY = e.touches[0].clientY - posY;
+      } else if (e.touches.length === 2) {
+        dragging = false;
+        lastPinchDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+      }
+    }, { passive: true });
+
+    wrap.addEventListener("touchmove", e => {
+      e.preventDefault();
+      if (e.touches.length === 1 && dragging) {
+        posX = e.touches[0].clientX - startX;
+        posY = e.touches[0].clientY - startY;
+        applyTransform();
+      } else if (e.touches.length === 2) {
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        const delta = (dist - lastPinchDist) * 0.005;
+        scale = Math.min(maxScale, Math.max(minScale, scale + delta));
+        lastPinchDist = dist;
+        applyTransform();
+      }
+    }, { passive: false });
+
+    wrap.addEventListener("touchend", () => { dragging = false; });
+
+    // Duplo toque para resetar
+    let lastTap = 0;
+    wrap.addEventListener("touchend", e => {
+      const now = Date.now();
+      if (now - lastTap < 300) resetZoom();
+      lastTap = now;
+    });
+  </script>
 </body>
 </html>

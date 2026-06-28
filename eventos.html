@@ -15,6 +15,13 @@
       50%  { opacity: 0; }
       100% { opacity: 1; }
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     *{ box-sizing:border-box }
     body{
@@ -52,11 +59,6 @@
     .page-title{ font-size:22px; font-weight:700; margin:0 0 4px; }
     .page-subtitle{ color:rgba(238,242,255,.72); font-size:14px; margin:0 0 24px; }
 
-    /* =====================================================
-       EVENTOS — como editar:
-       Para adicionar/remover eventos, copie ou apague
-       um bloco <div class="event-card">...</div> abaixo.
-       ===================================================== */
     .events-list{ display:flex; flex-direction:column; gap:14px; }
 
     .event-card{
@@ -64,6 +66,7 @@
       border:1px solid rgba(236,72,153,.22);
       border-radius:14px; padding:16px;
       display:flex; gap:16px; align-items:flex-start;
+      animation: fadeIn .35s ease both;
     }
 
     .event-date{
@@ -91,6 +94,27 @@
       text-align:center; padding:40px 20px;
       color:rgba(238,242,255,.4); font-size:14px;
     }
+    .no-events svg{ width:40px; height:40px; opacity:.3; display:block; margin:0 auto 12px; }
+
+    .loading{
+      text-align:center; padding:40px 20px;
+      color:rgba(238,242,255,.5); font-size:14px;
+      display:flex; flex-direction:column; align-items:center; gap:12px;
+    }
+    .spinner{
+      width:28px; height:28px;
+      border:3px solid rgba(255,255,255,.15);
+      border-top-color:#6366f1;
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    .source-badge{
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; color:rgba(238,242,255,.35);
+      margin-top:18px; padding:0 4px;
+    }
+    .source-badge svg{ width:12px; height:12px; }
 
     footer{
       margin-top:24px; text-align:center;
@@ -110,58 +134,135 @@
       <h1 class="page-title">Próximos Eventos</h1>
       <p class="page-subtitle">Confira o que está por vir na PIB Rio Verde.</p>
 
-      <div class="events-list">
-
-        <!-- ============================================================
-             EVENTO 1 — edite as informações abaixo conforme necessário
-             Para adicionar mais eventos, copie este bloco inteiro.
-             Para remover, apague o bloco inteiro.
-             ============================================================ -->
-        <div class="event-card">
-          <div class="event-date">
-            <div class="day">22</div>
-            <div class="month">Jun</div>
-          </div>
-          <div class="event-info">
-            <div class="event-title">Culto de Aniversário da Igreja</div>
-            <div class="event-detail">
-              Domingo, 22 de Junho · 19h00<br>
-              Templo Central – Av. Pres. Vargas, 399
-            </div>
-            <!-- Se tiver link de inscrição ou mais info, descomente abaixo:
-            <a class="event-link" href="#" target="_blank" rel="noopener">
-              Saiba mais
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
-            </a>
-            -->
-          </div>
+      <div class="events-list" id="events-list">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          Carregando eventos...
         </div>
+      </div>
 
-        <!-- ============================================================
-             EVENTO 2 — copie e adapte conforme necessário
-             ============================================================ -->
-        <!-- Descomente para adicionar outro evento:
-        <div class="event-card">
-          <div class="event-date">
-            <div class="day">DD</div>
-            <div class="month">Mês</div>
-          </div>
-          <div class="event-info">
-            <div class="event-title">Nome do Evento</div>
-            <div class="event-detail">
-              Dia da semana, DD de Mês · HHh00<br>
-              Local
-            </div>
-          </div>
-        </div>
-        -->
-
+      <div class="source-badge" id="source-badge" style="display:none">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Eventos gerenciados via Google Planilhas
       </div>
     </div>
 
     <footer>© <span id="year"></span> PIB Rio Verde</footer>
   </main>
 
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ================================================================
+    //  CONFIGURAÇÃO — cole aqui o ID da sua Planilha Google
+    //
+    //  Como obter o ID:
+    //  1. Abra sua planilha em sheets.google.com
+    //  2. Olhe a URL: .../spreadsheets/d/  ID_AQUI  /edit
+    //  3. Cole o ID abaixo entre as aspas
+    //
+    //  A planilha deve ter as colunas (na ordem):
+    //    A: Dia    (ex: 22)
+    //    B: Mês    (ex: Jun)
+    //    C: Título (ex: Culto de Aniversário)
+    //    D: Detalhes (ex: Domingo, 22 de Junho · 19h00\nTemplo Central)
+    //    E: Link   (opcional — URL para inscrição ou mais info)
+    //    F: Texto do link (opcional — ex: Saiba mais)
+    //
+    //  A planilha precisa estar publicada na web:
+    //    Arquivo → Compartilhar → Publicar na web → Publicar
+    // ================================================================
+    const SHEET_ID = "COLE_O_ID_DA_PLANILHA_AQUI";
+
+    // Eventos fixos de fallback (aparecem se a planilha não estiver configurada)
+    const FALLBACK_EVENTS = [
+      {
+        dia: "22",
+        mes: "Jun",
+        titulo: "Culto de Aniversário da Igreja",
+        detalhes: "Domingo, 22 de Junho · 19h00\nTemplo Central – Av. Pres. Vargas, 399",
+        link: "",
+        linkTexto: ""
+      }
+    ];
+
+    function renderEvents(events) {
+      const list = document.getElementById("events-list");
+      list.innerHTML = "";
+
+      if (!events || events.length === 0) {
+        list.innerHTML = `
+          <div class="no-events">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            Nenhum evento programado no momento.<br>Fique de olho!
+          </div>`;
+        return;
+      }
+
+      events.forEach((ev, i) => {
+        const card = document.createElement("div");
+        card.className = "event-card";
+        card.style.animationDelay = (i * 60) + "ms";
+
+        const detailLines = (ev.detalhes || "").split("\\n").join("<br>");
+
+        const linkHtml = ev.link
+          ? `<a class="event-link" href="${ev.link}" target="_blank" rel="noopener">
+               ${ev.linkTexto || "Saiba mais"}
+               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.2 5.6a1 1 0 0 0 0 1.4l4.1 4.1H5a1 1 0 1 0 0 2h12.3l-4.1 4.1a1 1 0 1 0 1.4 1.4l5.8-5.8a1 1 0 0 0 0-1.4l-5.8-5.8a1 1 0 0 0-1.4 0z"/></svg>
+             </a>`
+          : "";
+
+        card.innerHTML = `
+          <div class="event-date">
+            <div class="day">${ev.dia}</div>
+            <div class="month">${ev.mes}</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">${ev.titulo}</div>
+            <div class="event-detail">${detailLines}</div>
+            ${linkHtml}
+          </div>`;
+
+        list.appendChild(card);
+      });
+    }
+
+    async function loadFromSheets() {
+      if (!SHEET_ID || SHEET_ID === "COLE_O_ID_DA_PLANILHA_AQUI") {
+        renderEvents(FALLBACK_EVENTS);
+        return;
+      }
+
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+        const res = await fetch(url);
+        const text = await res.text();
+
+        // A resposta vem envolta em google.visualization.Query.setResponse(...)
+        const json = JSON.parse(text.slice(47, -2));
+        const rows = json.table.rows;
+
+        const events = rows
+          .map(r => ({
+            dia:      r.c[0]?.v?.toString() || "",
+            mes:      r.c[1]?.v || "",
+            titulo:   r.c[2]?.v || "",
+            detalhes: r.c[3]?.v || "",
+            link:     r.c[4]?.v || "",
+            linkTexto:r.c[5]?.v || ""
+          }))
+          .filter(e => e.titulo); // ignora linhas vazias
+
+        renderEvents(events);
+        document.getElementById("source-badge").style.display = "inline-flex";
+      } catch (e) {
+        console.warn("Erro ao carregar planilha, usando eventos fixos.", e);
+        renderEvents(FALLBACK_EVENTS);
+      }
+    }
+
+    loadFromSheets();
+  </script>
 </body>
 </html>
