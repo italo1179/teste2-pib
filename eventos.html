@@ -156,17 +156,6 @@
     // URL pública da planilha (CSV) — não alterar
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSMTVf2VtsoB3ePFs-WuT4DO20KVaz0X4VYXiz5vagHvcp9lFr791fla12Kw1KFTXVE5asWaEX5ipW/pub?output=csv";
 
-    // Evento de exemplo (aparece enquanto a planilha estiver vazia)
-    const FALLBACK_EVENTS = [
-      {
-        dia: "22",
-        mes: "Jun",
-        titulo: "Culto de Aniversário da Igreja",
-        detalhes: "Domingo, 22 de Junho · 19h00\nTemplo Central – Av. Pres. Vargas, 399",
-        link: "",
-        linkTexto: ""
-      }
-    ];
 
     // Parser de CSV (lida com vírgulas dentro de aspas)
     function parseCSV(text) {
@@ -254,13 +243,13 @@
           // Só inclui linhas onde "Dia" é número (filtra cabeçalhos e linhas vazias)
           .filter(e => e.titulo && /^\d+$/.test(e.dia));
 
-        renderEvents(events.length ? events : FALLBACK_EVENTS);
+        renderEvents(events);
         if (events.length) {
           document.getElementById("source-badge").style.display = "inline-flex";
         }
       } catch (e) {
         console.warn("Erro ao carregar planilha:", e);
-        renderEvents(FALLBACK_EVENTS);
+        renderEvents([]);
       }
     }
 
