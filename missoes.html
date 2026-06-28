@@ -52,23 +52,6 @@
     .page-title{ font-size:22px; font-weight:700; margin:0 0 4px; }
     .page-subtitle{ color:rgba(238,242,255,.72); font-size:14px; margin:0 0 24px; }
 
-    /* Imagem clicável */
-    .infographic-container{
-      width:100%;
-      border-radius:12px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-      position:relative;
-      cursor:zoom-in;
-    }
-    .infographic-container img{
-      width:100%;
-      height:auto;
-      display:block;
-      transition: opacity .2s;
-    }
-    .infographic-container:hover img{ opacity:.92; }
-
     .zoom-hint{
       position:absolute; bottom:10px; right:10px;
       background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
@@ -78,17 +61,6 @@
       pointer-events:none; transition:opacity .2s;
     }
     .zoom-hint svg{ width:13px; height:13px; }
-    .infographic-container:hover .zoom-hint{ opacity:0; }
-
-    /* Placeholder */
-    .img-placeholder{
-      width:100%; padding:60px 20px;
-      background:rgba(255,255,255,.04);
-      border-radius:12px; border:2px dashed rgba(255,255,255,.15);
-      text-align:center; color:rgba(238,242,255,.45);
-      font-size:14px; line-height:1.6;
-    }
-    .img-placeholder svg{ width:48px; height:48px; opacity:.3; margin-bottom:12px; display:block; margin-inline:auto; }
 
     /* ===================== LIGHTBOX ===================== */
     .lightbox{
@@ -155,6 +127,34 @@
     }
     .lb-close:hover{ background:rgba(255,255,255,.25); }
 
+    .missions-grid{
+      display:grid; grid-template-columns:3fr 1fr; gap:14px;
+    }
+    @media(max-width:520px){
+      .missions-grid{ grid-template-columns:1fr; }
+    }
+
+    .mission-card{
+      border-radius:12px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      cursor:zoom-in; position:relative;
+      background:rgba(255,255,255,.03);
+      display:flex; flex-direction:column;
+    }
+    .mission-card img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      flex:1; transition:opacity .2s;
+    }
+    .mission-card:hover img{ opacity:.88; }
+    .mission-card:hover .zoom-hint{ opacity:0; }
+    .mission-card-label{
+      position:absolute; bottom:0; left:0; right:0;
+      padding:28px 12px 10px;
+      background:linear-gradient(to top, rgba(0,0,0,.70) 0%, transparent 100%);
+      font-size:13px; font-weight:700; color:#fff;
+      pointer-events:none;
+    }
+
     footer{
       margin-top:24px; text-align:center;
       color:rgba(238,242,255,.45); font-size:12px;
@@ -173,22 +173,23 @@
       <h1 class="page-title">Missões PIB Rio Verde</h1>
       <p class="page-subtitle">Como são belos nos montes os pés daqueles que anunciam boas-novas... do outro lado da rua, do outro lado do mundo.</p>
 
-      <div class="infographic-container" id="img-container" onclick="openLightbox()" role="button" aria-label="Ampliar imagem de missões" tabindex="0">
-        <img
-          id="missoes-img"
-          src="assets/missoes.png"
-          alt="Infográfico de Missões PIB Rio Verde"
-          onerror="this.closest('.infographic-container').style.display='none'; document.getElementById('placeholder').style.display='block';"
-        />
-        <div class="zoom-hint">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          Clique para ampliar
+      <div class="missions-grid">
+        <div class="mission-card" onclick="openLightbox('assets/municipal.png', 'Missões Municipais')" role="button" tabindex="0" aria-label="Ampliar imagem de Missões Municipais">
+          <img src="assets/municipal.png" alt="Missões Municipais PIB Rio Verde" />
+          <div class="mission-card-label">Municipal</div>
+          <div class="zoom-hint">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Clique para ampliar
+          </div>
         </div>
-      </div>
-
-      <div id="placeholder" class="img-placeholder" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-        Para exibir o infográfico, salve a imagem como <strong>assets/missoes.png</strong> na pasta do projeto.
+        <div class="mission-card" onclick="openLightbox('assets/global.png', 'Missões Globais')" role="button" tabindex="0" aria-label="Ampliar imagem de Missões Globais">
+          <img src="assets/global.png" alt="Missões Globais PIB Rio Verde" />
+          <div class="mission-card-label">Global</div>
+          <div class="zoom-hint">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Clique para ampliar
+          </div>
+        </div>
       </div>
     </div>
 
@@ -216,7 +217,7 @@
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
       </button>
       <button class="lb-btn" onclick="resetZoom()" title="Tamanho original">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M9 9H5V5h4V3H3v6h2V7h2v2zm6-4h2v2h2V3h-6v2h2zm-2 10H7v-2H5v6h6v-2H9v-2zm8 2h-2v2h-2v2h6v-6h-2v2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
       </button>
     </div>
   </div>
@@ -224,9 +225,11 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Acessibilidade: abrir lightbox com Enter/Space
-    document.getElementById("img-container").addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(); }
+    // Acessibilidade: abrir lightbox com Enter/Space nos cards
+    document.querySelectorAll(".mission-card").forEach(card => {
+      card.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.click(); }
+      });
     });
 
     // ===================== LIGHTBOX =====================
@@ -247,8 +250,9 @@
       zoomLabel.textContent = Math.round(scale * 100) + "%";
     }
 
-    function openLightbox() {
-      lbImg.src = document.getElementById("missoes-img").src;
+    function openLightbox(src, alt) {
+      lbImg.src = src || document.getElementById("missoes-img").src;
+      if (alt) lbImg.alt = alt;
       scale = 1; posX = 0; posY = 0;
       applyTransform();
       lb.classList.add("open");
