@@ -109,13 +109,6 @@
       animation:spin .8s linear infinite;
     }
 
-    .source-badge{
-      display:inline-flex; align-items:center; gap:5px;
-      font-size:11px; color:rgba(238,242,255,.35);
-      margin-top:18px; padding:0 4px;
-    }
-    .source-badge svg{ width:12px; height:12px; }
-
     footer{
       margin-top:24px; text-align:center;
       color:rgba(238,242,255,.45); font-size:12px;
@@ -240,9 +233,6 @@
           .filter(e => e.titulo && /^\d+$/.test(e.dia));
 
         renderEvents(events);
-        if (events.length) {
-          document.getElementById("source-badge").style.display = "inline-flex";
-        }
       } catch (e) {
         console.warn("Erro ao carregar planilha:", e);
         renderEvents([]);
